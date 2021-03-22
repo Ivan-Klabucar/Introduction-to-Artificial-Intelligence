@@ -43,16 +43,18 @@ class SearchAlgorithm:
         return self.state_space.h[state]
     
     def print_solution(self):
-        if not self.solution:
-            print("No goal state could be reached.")
-            return
-
-        print(f'States opened = {self.states_opened_cnt}')
+        solution_found = "yes"
+        if not self.solution: solution_found = "no"
+        print(f"[FOUND_SOLUTION]: {solution_found}")
+        if not self.solution: return
+        print(f'[STATES_VISITED]: {self.states_opened_cnt}')
         path = self.calc_path()
-        print(f'Found path of length {len(path)} with total cost {self.solution.cost}:')
-        
+        print(f'[PATH_LENGTH]: {len(path)}')
+        print(f'[TOTAL_COST]: {self.solution.cost}')
+        print(f'[PATH]: ', end="")
         while path:
             if len(path) == 1:
                 print(path.pop())
             else:
-                print(f'{path.pop()} =>')
+                print(f'{path.pop()} => ', end="")
+        print()

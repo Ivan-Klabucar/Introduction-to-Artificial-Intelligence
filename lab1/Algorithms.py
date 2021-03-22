@@ -21,6 +21,7 @@ class BFS(SearchAlgorithm):
     
     def solve(self):
         self.solution = self.bfs()
+        print('# BFS')
         self.print_solution()
 
 class UniformCostSearch(SearchAlgorithm):
@@ -44,6 +45,7 @@ class UniformCostSearch(SearchAlgorithm):
     
     def solve(self):
         self.solution = self.uniform_cost_search()
+        print('# UCS')
         self.print_solution()
 
 class AStarSearch(SearchAlgorithm):
@@ -80,4 +82,5 @@ class AStarSearch(SearchAlgorithm):
     def solve(self):
         self.solution = self.a_star_search()
         self.states_opened_cnt = len(self.node_record) - len(self.open) + 1
+        print(f'#  A-STAR {self.state_space.heuristic_path}')
         self.print_solution()

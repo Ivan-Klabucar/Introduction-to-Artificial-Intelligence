@@ -5,53 +5,61 @@ class BFS(SearchAlgorithm):
     def __init__(self, state_space):
         super().__init__(state_space)
         self.open = []
+        self.visited = set()
     
-    def new_node(self, state, cost, parent):
-        self.open.append(Node(state, cost, parent))
-        self.states_opened_cnt += 1
+    def new_nodes(self, l):
+        self.open.extend([Node(x[0], x[1], x[2]) for x in l])
 
     def bfs(self):
-        self.new_node(self.start_state, 0, None)
+        self.new_nodes([(self.start_state, 0, None)])
         while open:
             n = self.open.pop(0)
+            self.visited.add(n.state)
             if n.state in self.goal_states: return n
+            l = []
             for transition in self.succ(n.state):
-                self.new_node(transition[0], 1 + n.cost, n)
+                if transition[0] not in self.visited: l.append((transition[0], transition[1] + n.cost, n))
+            l.sort()
+            self.new_nodes(l)
         return None
     
     def solve(self):
         self.solution = self.bfs()
         print('# BFS')
+        self.states_opened_cnt = len(self.visited)
         self.print_solution()
 
 class UniformCostSearch(SearchAlgorithm):
     def __init__(self, state_space):
         super().__init__(state_space)
         self.open = []
+        self.visited = set()
         heapq.heapify(self.open)
     
     def new_node(self, state, cost, parent):
         heapq.heappush(self.open, Node(state, cost, parent))
-        self.states_opened_cnt += 1
 
     def uniform_cost_search(self):
         self.new_node(self.start_state, 0, None)
         while open:
             n = heapq.heappop(self.open)
+            self.visited.add(n.state)
             if n.state in self.goal_states: return n
             for transition in self.succ(n.state):
-                self.new_node(transition[0], n.cost + transition[1], n)
+                if transition[0] not in self.visited: self.new_node(transition[0], n.cost + transition[1], n)
         return None
     
     def solve(self):
         self.solution = self.uniform_cost_search()
         print('# UCS')
+        self.states_opened_cnt = len(self.visited)
         self.print_solution()
 
 class AStarSearch(SearchAlgorithm):
     def __init__(self, state_space):
         super().__init__(state_space)
         self.open = []
+        self.visited = set()
         heapq.heapify(self.open)
         self.node_record = dict()
     
@@ -65,6 +73,7 @@ class AStarSearch(SearchAlgorithm):
         while open:
             n = heapq.heappop(self.open)
             if n.deleted: continue
+            self.visited.add(n.state)
             if n.state in self.goal_states: return n
             for transition in self.succ(n.state):
                 new_state = transition[0]
@@ -81,6 +90,7 @@ class AStarSearch(SearchAlgorithm):
     
     def solve(self):
         self.solution = self.a_star_search()
-        self.states_opened_cnt = len(self.node_record) - len(self.open) + 1
+        #self.states_opened_cnt = len(self.node_record) - len(self.open) + 1
         print(f'#  A-STAR {self.state_space.heuristic_path}')
+        self.states_opened_cnt = len(self.visited)
         self.print_solution()

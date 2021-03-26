@@ -7,11 +7,13 @@ class Node:
         self.deleted = False
 
     def __eq__(self, other):
-        if other.cost == self.cost: return True
+        if other.cost == self.cost and other.state == self.state: return True
         return False
     
     def __lt__(self, other):
         if self.cost < other.cost: 
+            return True
+        elif self.cost == other.cost and self.state < other.state:
             return True
         else:
             return False
@@ -57,4 +59,3 @@ class SearchAlgorithm:
                 print(path.pop())
             else:
                 print(f'{path.pop()} => ', end="")
-        print()

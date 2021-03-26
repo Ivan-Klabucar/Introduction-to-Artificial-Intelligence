@@ -12,7 +12,11 @@ parser.add_argument("--check-optimistic", action="store_true", help="zastavica k
 parser.add_argument("--check-consistent", action="store_true", help="zastavica koja signalizira da se za danu heuristiku zeli provjeriti konsistentnost")
 args = parser.parse_args()
 
-state_space = StateSpace(args.ss, args.h)
+heuristic_path = None
+if args.h:
+    heuristic_path = args.h
+
+state_space = StateSpace(args.ss, heuristic_path)
 if args.alg:
     if args.alg == "bfs":
         bfs_al = BFS(state_space)

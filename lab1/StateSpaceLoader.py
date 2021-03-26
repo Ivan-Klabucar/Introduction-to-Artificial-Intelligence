@@ -13,7 +13,6 @@ class StateSpaceLoader:
     
     def load(self):
         succ = dict()
-        h = dict()
         #Loading of transition function
         lines = self.load_lines_and_remove_comments(self.state_space_path)
             
@@ -23,19 +22,23 @@ class StateSpaceLoader:
         for l in lines:
             raw = l.split(':')
             from_state = raw[0]
-            to_states_raw = raw[1].strip().split(' ')
-            to_states = []
-            for enrty in to_states_raw:
-                pair = enrty.split(',')
-                to_states.append((pair[0], float(pair[1])))
-            succ[from_state] = to_states
+            if raw[1].strip():
+                to_states_raw = raw[1].strip().split(' ')
+                to_states = []
+                for enrty in to_states_raw:
+                    pair = enrty.split(',')
+                    to_states.append((pair[0], float(pair[1])))
+                succ[from_state] = to_states
         
         #Loading of heuristic function
-        lines = self.load_lines_and_remove_comments(self.heuristic_path)
-        for l in lines:
-            raw = l.split(':')
-            state = raw[0]
-            value = float(raw[1].strip())
-            h[state] = value
+        h = None
+        if self.heuristic_path:
+            h = dict()
+            lines = self.load_lines_and_remove_comments(self.heuristic_path)
+            for l in lines:
+                raw = l.split(':')
+                state = raw[0]
+                value = float(raw[1].strip())
+                h[state] = value
         
         return succ, h, start_state, goal_states

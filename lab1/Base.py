@@ -25,7 +25,7 @@ class SearchAlgorithm:
         self.start_state = state_space.start_state
         self.goal_states = state_space.goal_states
         self.solution = None
-        self.states_opened_cnt = 0
+        self.visited = set()
     
     def calc_path(self):
         if not self.solution:
@@ -49,7 +49,7 @@ class SearchAlgorithm:
         if not self.solution: solution_found = "no"
         print(f"[FOUND_SOLUTION]: {solution_found}")
         if not self.solution: return
-        print(f'[STATES_VISITED]: {self.states_opened_cnt}')
+        print(f'[STATES_VISITED]: {len(self.visited)}')
         path = self.calc_path()
         print(f'[PATH_LENGTH]: {len(path)}')
         print(f'[TOTAL_COST]: {self.solution.cost}')

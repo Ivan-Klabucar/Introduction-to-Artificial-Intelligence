@@ -5,13 +5,12 @@ class BFS(SearchAlgorithm):
     def __init__(self, state_space):
         super().__init__(state_space)
         self.open = []
-        self.visited = set()
     
     def new_nodes(self, l):
         self.open.extend([Node(x[0], x[1], x[2]) for x in l])
 
     def bfs(self):
-        self.new_nodes([(self.start_state, 0, None)])
+        self.new_nodes([(self.start_state, 0.0, None)])
         while open:
             n = self.open.pop(0)
             self.visited.add(n.state)
@@ -26,21 +25,19 @@ class BFS(SearchAlgorithm):
     def solve(self):
         self.solution = self.bfs()
         print('# BFS')
-        self.states_opened_cnt = len(self.visited)
         self.print_solution()
 
 class UniformCostSearch(SearchAlgorithm):
     def __init__(self, state_space):
         super().__init__(state_space)
         self.open = []
-        self.visited = set()
         heapq.heapify(self.open)
     
     def new_node(self, state, cost, parent):
         heapq.heappush(self.open, Node(state, cost, parent))
 
     def uniform_cost_search(self):
-        self.new_node(self.start_state, 0, None)
+        self.new_node(self.start_state, 0.0, None)
         while open:
             n = heapq.heappop(self.open)
             self.visited.add(n.state)
@@ -52,14 +49,12 @@ class UniformCostSearch(SearchAlgorithm):
     def solve(self):
         self.solution = self.uniform_cost_search()
         print('# UCS')
-        self.states_opened_cnt = len(self.visited)
         self.print_solution()
 
 class AStarSearch(SearchAlgorithm):
     def __init__(self, state_space):
         super().__init__(state_space)
         self.open = []
-        self.visited = set()
         heapq.heapify(self.open)
         self.node_record = dict()
     
@@ -69,7 +64,7 @@ class AStarSearch(SearchAlgorithm):
         self.node_record[state] = node
 
     def a_star_search(self):
-        self.new_node(self.start_state, 0 + self.h(self.start_state), None, 0)
+        self.new_node(self.start_state, 0.0 + self.h(self.start_state), None, 0)
         while open:
             n = heapq.heappop(self.open)
             if n.deleted: continue
@@ -90,7 +85,5 @@ class AStarSearch(SearchAlgorithm):
     
     def solve(self):
         self.solution = self.a_star_search()
-        #self.states_opened_cnt = len(self.node_record) - len(self.open) + 1
         print(f'#  A-STAR {self.state_space.heuristic_path}')
-        self.states_opened_cnt = len(self.visited)
         self.print_solution()

@@ -22,13 +22,13 @@ class StateSpaceLoader:
         for l in lines:
             raw = l.split(':')
             from_state = raw[0]
+            to_states = []
             if raw[1].strip():
                 to_states_raw = raw[1].strip().split(' ')
-                to_states = []
                 for enrty in to_states_raw:
                     pair = enrty.split(',')
                     to_states.append((pair[0], float(pair[1])))
-                succ[from_state] = to_states
+            succ[from_state] = to_states
         
         #Loading of heuristic function
         h = None

@@ -64,7 +64,7 @@ def print_deduction(resolver):
     print('===============')
     print(f'[CONCLUSION]: {resolver.goal} is true')
 
-def print_cooking_deduction(resolver):
+def print_deduction2(resolver):
     if not resolver.solution:
         print(f'[CONCLUSION]: {resolver.goal} is unknown')
         return

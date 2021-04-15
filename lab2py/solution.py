@@ -1,7 +1,7 @@
 import sys
 from Parsers import ClausesParser, CookingKnowledgeParser, InstructionParser
 from Resolver import *
-from HelperFunctions import print_deduction, print_knowledge_base
+from HelperFunctions import print_deduction, print_knowledge_base, print_deduction2
 
 task = sys.argv[1]
 path_to_clauses = sys.argv[2]
@@ -9,7 +9,7 @@ if task == 'resolution':
     premises, possible_conclusion = ClausesParser(path_to_clauses).parse()
     resolver = Resolver(premises, possible_conclusion)
     resolver.deduce()
-    print_deduction(resolver)
+    print_deduction2(resolver)
 elif task == 'cooking':
     path_to_instructions = sys.argv[3]
     knowledge_base = CookingKnowledgeParser(path_to_clauses).parse_cooking_knowledge()

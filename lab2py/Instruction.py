@@ -1,6 +1,6 @@
 from Clause import Clause
 from Resolver import Resolver
-from HelperFunctions import print_cooking_deduction
+from HelperFunctions import print_deduction2
 
 class Instruction:
     def __init__(self, line):
@@ -16,7 +16,7 @@ class Instruction:
     def deduction(self, knowledge):
         resolver = Resolver(knowledge, self.clause)
         resolver.deduce()
-        print_cooking_deduction(resolver)
+        print_deduction2(resolver)
 
     def execute(self, knowledge):
         print(f'User’s command: {self.clause} {self.type}')

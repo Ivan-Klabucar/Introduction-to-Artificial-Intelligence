@@ -1,2 +1,3 @@
-# UUI_lab
+# Introduction to Artificial Intelligence
+Laboratory exercises
 
